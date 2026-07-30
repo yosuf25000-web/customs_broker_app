@@ -1,0 +1,33 @@
+import 'package:sqflite/sqflite.dart'; import 'package:path/path.dart'; 
+class LocalDatabase {
+  static final LocalDatabase instance = LocalDatabase._init(); static 
+  Database? _database; LocalDatabase._init(); Future<Database> get 
+  database async {
+    if (_database != null) return _database!; _database = await 
+    _initDB('customs_broker.db'); return _database!;
+  }
+  Future<Database> _initDB(String fileName) async { final dbPath = await 
+    getDatabasesPath(); final path = join(dbPath, fileName); return 
+    await openDatabase(
+      path, version: 1, onCreate: _createDB, );
+  }
+  Future _createDB(Database db, int version) async { await 
+    db.execute('''
+      CREATE TABLE traders ( id INTEGER PRIMARY KEY AUTOINCREMENT, name 
+        TEXT NOT NULL, phone TEXT, tax_no TEXT, commercial_register 
+        TEXT, address TEXT, created_at TEXT
+      ) '''); await db.execute(''' CREATE TABLE declarations ( id 
+        INTEGER PRIMARY KEY AUTOINCREMENT, internal_no TEXT, trader_id 
+        INTEGER, declaration_date TEXT, status TEXT, total_amount REAL, 
+        created_at TEXT
+      ) '''); await db.execute(''' CREATE TABLE declaration_items ( id 
+        INTEGER PRIMARY KEY AUTOINCREMENT, declaration_id INTEGER, 
+        goods_description TEXT, tariff_code TEXT, quantity REAL, value 
+        REAL
+      ) '''); await db.execute(''' CREATE TABLE accounting_entries ( id 
+        INTEGER PRIMARY KEY AUTOINCREMENT, type TEXT, description TEXT, 
+        amount REAL, date TEXT
+      ) '''); await db.execute(''' CREATE TABLE documents ( id INTEGER 
+        PRIMARY KEY AUTOINCREMENT, related_type TEXT, related_id 
+        INTEGER, file_path TEXT, file_name TEXT, created_at TEXT
+     
