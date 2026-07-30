@@ -4,12 +4,11 @@ import 'api_exception.dart';
 import 'secure_storage_service.dart';
 
 /// إعدادات الاتصال بالـ Backend.
-/// * محاكي أندرويد: يستخدم 10.0.2.2 للوصول لـ localhost على جهاز التطوير.
-/// * جهاز حقيقي / إنتاج: استبدل بعنوان الخادم الفعلي (https://api.yourdomain.com).
+/// * تم تحديث القيمة الافتراضية للرابط لتعمل مباشرة مع سيرفر الإنتاج على Railway.
 class ApiConfig {
   static const String baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://127.0.0.1:4000',
+    defaultValue: 'https://customsbackend-production.up.railway.app',
   );
 }
 
