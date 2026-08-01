@@ -32,7 +32,7 @@ jobs:
 
       - run: flutter pub get
 
-      - - run: flutter analyze --no-fatal-infos --no-fatal-warnings
+      - run: flutter analyze --no-fatal-infos --no-fatal-warnings
       - name: Build APK with correct API URL
         run: flutter build apk --release --dart-define=API_BASE_URL=https://customsbackend-production.up.railway.app
 
